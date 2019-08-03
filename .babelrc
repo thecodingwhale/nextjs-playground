@@ -1,1 +1,8 @@
-{   "presets": ["next/babel"] }
+{
+  "plugins": [
+    ["inline-import", { "extensions": [".css"] }],
+    ["import", { "libraryName": "antd" }]
+  ],
+  "presets": ["next/babel"],
+  "ignore": []
+}

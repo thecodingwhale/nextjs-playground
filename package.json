@@ -11,6 +11,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "antd": "^3.20.7",
     "next": "latest",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
@@ -25,6 +26,8 @@
     "@testing-library/react": "^8.0.7",
     "babel-jest": "24.1.0",
     "babel-loader": "^8.0.5",
+    "babel-plugin-import": "^1.12.0",
+    "babel-plugin-inline-import": "^3.0.0",
     "jest": "24.1.0",
     "react-testing-library": "^5.4.2"
   }
