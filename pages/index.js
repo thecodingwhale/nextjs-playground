@@ -1,9 +1,10 @@
 
-import * as React from 'react';
+import * as React from 'react'
 import stylesheet from 'antd/dist/antd.min.css'
+import { Layout, Menu, Row, Col } from 'antd'
+import CustomCard from '../components/CustomCard'
 
-import { Layout, Menu } from 'antd';
-const { Header, Content } = Layout;
+const { Header, Content } = Layout
 
 export default class App extends React.Component {
   render() {
@@ -19,7 +20,6 @@ export default class App extends React.Component {
           float: left;
         }
       `}</style>
-
       <Header className='header'>
         <div className='logo' />
         <Menu
@@ -33,8 +33,95 @@ export default class App extends React.Component {
       </Header>
       <Layout>
         <Layout style={{ padding: '24px', minHeight: 'calc(100vh - 64px)' }}>
-          <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-            Content
+          <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
+            <Row gutter={16} style={{ marginBottom: '32px' }}>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/690'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/691'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/692'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row gutter={16} style={{ marginBottom: '32px' }}>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/690'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/691'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+              <Col span={8}>
+                <CustomCard
+                  id={12930}
+                  name='Riscas'
+                  image='http://placekitten.com/960/692'
+                  date='Setembro 2018'
+                  gift='Jorge Seabra'
+                  price={50}
+                  donated={false}
+                  onClickDonate={() => {
+                    console.log('test');
+                  }}
+                />
+              </Col>
+            </Row>
           </Content>
         </Layout>
       </Layout>
