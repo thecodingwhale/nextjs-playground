@@ -1,12 +1,16 @@
-
+import Router, { withRouter } from 'next/router'
 import * as React from 'react'
 import stylesheet from 'antd/dist/antd.min.css'
 import { Layout, Menu } from 'antd'
 
 const { Header, Content } = Layout
 
-const withLayout = Page => {
-  return () => (
+const onClickMenu = (url) => {
+  Router.push(url);
+};
+
+const BaseLayout = (props) => {
+  return (
     <Layout>
       <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
       <style jsx>{`
@@ -24,21 +28,39 @@ const withLayout = Page => {
         <Menu
           theme='dark'
           mode='horizontal'
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[props.router.asPath]}
           style={{ lineHeight: '64px' }}
         >
-          <Menu.Item key='1'>Exam 1</Menu.Item>
-          <Menu.Item key='2'>Exam 2</Menu.Item>
+          <Menu.Item
+            key='/'
+            onClick={() => onClickMenu('/')}
+          >
+            Exam 1
+          </Menu.Item>
+          <Menu.Item
+            key='/exam-second'
+            onClick={() => onClickMenu('/exam-second')}
+          >
+            Exam 2
+          </Menu.Item>
         </Menu>
       </Header>
       <Layout>
         <Layout style={{ padding: '24px', minHeight: 'calc(100vh - 64px)' }}>
           <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
-            <Page />
+            {props.children}
           </Content>
         </Layout>
       </Layout>
     </Layout>
+  )
+}
+const withLayout = Page => {
+  const SampleLayout = withRouter(BaseLayout);
+  return () => (
+    <SampleLayout>
+      <Page />
+    </SampleLayout>
   )
 }
 
