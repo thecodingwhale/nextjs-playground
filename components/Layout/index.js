@@ -1,7 +1,10 @@
+
 import Router, { withRouter } from 'next/router'
-import * as React from 'react'
-import stylesheet from 'antd/dist/antd.min.css'
-import { Layout, Menu } from 'antd'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { Layout, Menu, notification } from 'antd'
+import { closeSuccessNotification } from '../../containers/Notification/actions'
 
 const { Header, Content } = Layout
 
@@ -9,26 +12,35 @@ const onClickMenu = (url) => {
   Router.push(url);
 };
 
-const BaseLayout = (props) => {
+const BaseLayout = ({
+  children,
+  router,
+  isOpenNotification,
+  closeSuccessNotification,
+}) => {
+
+  console.log('isOpenNotification: ', isOpenNotification);
+
+  useEffect(() => {
+    if (isOpenNotification) {
+      notification['success']({
+        message: 'Thank You!',
+        description: 'We appreciate your suppor!',
+        onClose: () => {
+          closeSuccessNotification();
+        }
+      })
+    }
+  })
+
   return (
     <Layout>
-      <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
-      <style jsx>{`
-        #components-layout-demo-top-side-2 .logo {
-          width: 120px;
-          height: 31px;
-          background: #333;
-          border-radius: 6px;
-          margin: 16px 28px 16px 0;
-          float: left;
-        }
-      `}</style>
       <Header className='header'>
         <div className='logo' />
         <Menu
           theme='dark'
           mode='horizontal'
-          defaultSelectedKeys={[props.router.asPath]}
+          defaultSelectedKeys={[router.asPath]}
           style={{ lineHeight: '64px' }}
         >
           <Menu.Item
@@ -48,15 +60,30 @@ const BaseLayout = (props) => {
       <Layout>
         <Layout style={{ padding: '24px', minHeight: 'calc(100vh - 64px)' }}>
           <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
-            {props.children}
+            {children}
           </Content>
         </Layout>
       </Layout>
     </Layout>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    isOpenNotification: state.notification.open,
+  }
+}
+
+const mapDispatchActions = {
+  closeSuccessNotification,
+}
+
 const withLayout = Page => {
-  const SampleLayout = withRouter(BaseLayout);
+  const enhance = compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchActions),
+  )
+  const SampleLayout = enhance(BaseLayout)
   return () => (
     <SampleLayout>
       <Page />

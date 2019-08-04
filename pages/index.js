@@ -2,19 +2,15 @@
 
 import { Row, Col, notification } from 'antd'
 import { useState } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import withLayout from '../components/Layout'
 import CustomCard from '../components/CustomCard'
+import { openSuccessNotification } from '../containers/Notification/actions'
 
-const openSuccessNotification = () => {
-  notification['success']({
-    message: 'Thank You!',
-    description:
-      'We appreciate your suppor!',
-  })
-};
-
-
-function Index() {
+function Index({
+  openSuccessNotification,
+}) {
   const [donated, setDonated]= useState(false)
   const [donating, setDonating] = useState(false)
   return (
@@ -32,7 +28,7 @@ function Index() {
           onClickDonate={() => {
             setDonating(true)
             setTimeout(() => {
-              openSuccessNotification()
+              openSuccessNotification();
               setDonating(false);
               setDonated(true)
             }, 2000)
@@ -43,4 +39,13 @@ function Index() {
   )
 }
 
-export default withLayout(Index)
+const mapStateToProps = state => {
+  return {}
+};
+
+const enhance = compose(
+  withLayout,
+  connect(mapStateToProps, { openSuccessNotification }),
+)
+
+export default enhance(Index)
