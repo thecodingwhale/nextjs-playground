@@ -2,13 +2,6 @@
 import PropTypes from 'prop-types'
 import { Card, Button, Divider } from 'antd'
 
-// Phartilhar - Share
-// Doar - Donate
-// Já doou - Donated
-// Perdido - Lost
-// Dono - Gift
-// LIGAR - Phone
-
 function CustomCard({
   id,
   name,
@@ -17,14 +10,15 @@ function CustomCard({
   gift,
   price,
   donated,
+  disabled,
   onClickDonate,
 }) {
   return (
     <Card
       hoverable
       extra={
-        <Button type="primary">
-          Phartilhar
+        <Button type="primary" disabled={disabled}>
+          Share
         </Button>
       }
       title={`${name} -- #${id}`}
@@ -36,15 +30,15 @@ function CustomCard({
       }
     >
       <div>
-        <strong>Perdido</strong>
+        <strong>Lost</strong>
         <span style={{ float: 'right' }}>{date}</span>
       </div>
       <div>
-        <strong>Dono</strong>
+        <strong>Gift</strong>
         <span style={{ float: 'right' }}>{gift}</span>
       </div>
       <div>
-        <strong>Localidade</strong>
+        <strong>Location</strong>
         <span style={{ float: 'right' }}>Faro</span>
       </div>
       <Divider />
@@ -53,19 +47,19 @@ function CustomCard({
         <span style={{ float: 'right' }}>
           {donated ? (
             <Button type='primary' disabled>
-              Já doou
+              Donated
             </Button>
           ) : (
-            <Button type='primary' onClick={onClickDonate}>
-              Doar
+            <Button type='primary' onClick={onClickDonate} disabled={disabled}>
+              {disabled ? 'Donating...' : 'Donate'}
             </Button>
           )}
 
         </span>
       </div>
       <Divider />
-      <Button block type='primary' size='large'>
-        LIGAR
+      <Button block type='primary' size='large' disabled={disabled}>
+        Phone
       </Button>
     </Card>
   );
@@ -73,6 +67,7 @@ function CustomCard({
 
 CustomCard.defaultProps = {
   donated: false,
+  disabled: true,
 };
 
 CustomCard.propTypes = {
@@ -82,6 +77,8 @@ CustomCard.propTypes = {
   date: PropTypes.string.isRequired,
   gift: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  donated: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default CustomCard;
