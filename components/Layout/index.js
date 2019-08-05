@@ -50,8 +50,8 @@ const BaseLayout = ({
             Exam 1
           </Menu.Item>
           <Menu.Item
-            key='/exam-second'
-            onClick={() => onClickMenu('/exam-second')}
+            key='/sample-second'
+            onClick={() => onClickMenu('/sample-second')}
           >
             Exam 2
           </Menu.Item>
