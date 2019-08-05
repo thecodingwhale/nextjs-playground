@@ -4,11 +4,12 @@ import { Row, Col } from 'antd'
 import { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { Button, Divider } from 'antd'
 import withLayout from '../components/Layout'
 import AnimalCard from '../components/AnimalCard'
 import { openSuccessNotification } from '../containers/Notification/actions'
 
-import { Button, Divider } from 'antd'
+
 
 function Index({
   openSuccessNotification,

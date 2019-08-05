@@ -19,8 +19,6 @@ const BaseLayout = ({
   closeSuccessNotification,
 }) => {
 
-  console.log('isOpenNotification: ', isOpenNotification);
-
   useEffect(() => {
     if (isOpenNotification) {
       notification['success']({
