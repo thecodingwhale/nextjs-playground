@@ -25,7 +25,10 @@ const configureStore = (initialState, { isServer }) => {
     const storage = require('redux-persist/lib/storage').default
     const persistConfig = {
       key: 'nextjs',
-      whitelist: ['authentication'], // make sure it does not clash with server keys
+      whitelist: [
+        'authentication',
+        'authentication.user',
+      ], // make sure it does not clash with server keys
       storage
     }
     const persistedReducer = persistReducer(persistConfig, rootReducer)

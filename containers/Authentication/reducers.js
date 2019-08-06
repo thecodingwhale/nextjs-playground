@@ -11,6 +11,10 @@ function reducer (state = initialState, action) {
       return {
         ...state,
         authenticated: true,
+        user: {
+          ...state.user,
+          ...{...action.payload},
+        }
       }
 
     case actionTypes.LOGOUT_USER:

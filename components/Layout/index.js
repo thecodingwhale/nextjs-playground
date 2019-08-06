@@ -19,6 +19,7 @@ const BaseLayout = ({
   isOpenNotification,
   error,
   isAuthenticated,
+  fullname,
   closeSuccessNotification,
   logoutUser,
 }) => {
@@ -44,6 +45,31 @@ const BaseLayout = ({
     }
   })
 
+  const TotalDonation = () => {
+    const style = {
+      color: '#1890ff',
+      fontWeight: 'bold',
+    };
+    return (
+      <span style={style}>
+        $459
+      </span>
+    )
+  }
+
+  const DisplayName = () => {
+    const style = {
+      textTransform: 'capitalize',
+      color: '#ffffff',
+      fontWeight: 'bold',
+    }
+    return (
+      <span style={style}>
+        {fullname}!
+      </span>
+    )
+  }
+
   return (
     <Layout>
       <Header className='header'>
@@ -67,14 +93,19 @@ const BaseLayout = ({
             Exam 2
           </Menu.Item>
           {isAuthenticated !== false && (
-            <Menu.Item
-              onClick={() => logoutUser()}
-              style={{
-                float: 'right'
-              }}
-            >
-              Logout
-            </Menu.Item>
+            <React.Fragment>
+              <Menu.Item
+                onClick={() => logoutUser()}
+                style={{
+                  float: 'right'
+                }}
+              >
+                Logout
+              </Menu.Item>
+              <div onClick={() => {}} style={{ float: 'right' }}>
+                Welcome, <DisplayName /> | Total Donation: <TotalDonation />&nbsp;|&nbsp;
+              </div>
+            </React.Fragment>
           )}
         </Menu>
       </Header>
@@ -94,6 +125,7 @@ const mapStateToProps = state => {
     isOpenNotification: state.notification.open,
     error: state.error,
     isAuthenticated: state.authentication.authenticated,
+    fullname: state.authentication.user && `${state.authentication.user.firstName} ${state.authentication.user.lastName}`
   }
 }
 
