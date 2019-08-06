@@ -16,6 +16,7 @@ const BaseLayout = ({
   children,
   router,
   isOpenNotification,
+  error,
   closeSuccessNotification,
 }) => {
 
@@ -24,6 +25,15 @@ const BaseLayout = ({
       notification['success']({
         message: 'Thank You!',
         description: 'We appreciate your suppor!',
+        onClose: () => {
+          closeSuccessNotification();
+        }
+      })
+    }
+    if (error.error !== null) {
+      notification['error']({
+        message: 'Error',
+        description: error.error,
         onClose: () => {
           closeSuccessNotification();
         }
@@ -69,6 +79,7 @@ const BaseLayout = ({
 const mapStateToProps = state => {
   return {
     isOpenNotification: state.notification.open,
+    error: state.error,
   }
 }
 

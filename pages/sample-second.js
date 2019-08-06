@@ -4,6 +4,7 @@ import { compose } from 'redux'
 import { Button, Divider, Row, Col } from 'antd'
 import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
+import { withAuthentication } from '../utils/authentication'
 
 const chunk = (arr, chunkSize = 1, cache = []) => {
   const tmp = [...arr]
@@ -106,6 +107,7 @@ const mapStateToProps = state => {
 
 const enhance = compose(
   withLayout,
+  withAuthentication,
   connect(mapStateToProps, {}),
 )
 

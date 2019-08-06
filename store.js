@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from './reducers'
-import rootSaga from './sagas'
+import authenticationSaga from './containers/Authentication/sagas'
 
 const bindMiddleware = middleware => {
   if (process.env.NODE_ENV !== 'production') {
@@ -20,7 +20,7 @@ function configureStore (initialState = {}) {
     bindMiddleware([sagaMiddleware])
   )
 
-  store.sagaTask = sagaMiddleware.run(rootSaga)
+  store.sagaTask = sagaMiddleware.run(authenticationSaga)
 
   return store
 }
