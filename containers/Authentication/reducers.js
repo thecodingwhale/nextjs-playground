@@ -10,7 +10,14 @@ function reducer (state = initialState, action) {
     case actionTypes.USER_LOGIN_SUCCESS:
       return {
         ...state,
-        ...{authenticated: true}
+        authenticated: true,
+      }
+
+    case actionTypes.LOGOUT_USER:
+      return {
+        ...state,
+        authenticated: false,
+        user: null,
       }
 
     default:

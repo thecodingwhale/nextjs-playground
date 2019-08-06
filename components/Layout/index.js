@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
 import { Layout, Menu, notification } from 'antd'
 import { closeSuccessNotification } from '../../containers/Notification/actions'
+import { logoutUser } from '../../containers/Authentication/actions'
 
 const { Header, Content } = Layout
 
@@ -17,7 +18,9 @@ const BaseLayout = ({
   router,
   isOpenNotification,
   error,
+  isAuthenticated,
   closeSuccessNotification,
+  logoutUser,
 }) => {
 
   useEffect(() => {
@@ -63,6 +66,16 @@ const BaseLayout = ({
           >
             Exam 2
           </Menu.Item>
+          {isAuthenticated !== false && (
+            <Menu.Item
+              onClick={() => logoutUser()}
+              style={{
+                float: 'right'
+              }}
+            >
+              Logout
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
       <Layout>
@@ -80,11 +93,13 @@ const mapStateToProps = state => {
   return {
     isOpenNotification: state.notification.open,
     error: state.error,
+    isAuthenticated: state.authentication.authenticated,
   }
 }
 
 const mapDispatchActions = {
   closeSuccessNotification,
+  logoutUser,
 }
 
 const withLayout = Page => {
