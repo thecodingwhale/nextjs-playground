@@ -9,12 +9,13 @@ function paginate(array, pageSize, pageNumber) {
 }
 
 const api = {
-  pets: ({ page, size }) => {
+  pets: ({ page, size, location }) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        const filteredPets = location === null ? pets : pets.filter(pet => pet.location === location)
         resolve({
-          total: pets.length,
-          data: paginate(pets, size, page),
+          total: filteredPets.length,
+          data: paginate(filteredPets, size, page),
         })
       }, 500)
     })
@@ -28,8 +29,8 @@ export default function* rootSaga () {
 export function* fetchPetsAsync(action) {
   yield put(setFetching(true))
   try {
-    const { payload: { page, size } } = action;
-    const { total, data } = yield call(api.pets, { page, size })
+    const { payload: { page, size, location } } = action;
+    const { total, data } = yield call(api.pets, { page, size, location })
     yield put(getPets({ total, data }))
     yield put(setFetching(false))
   } catch (error) {

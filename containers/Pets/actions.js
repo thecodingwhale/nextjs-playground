@@ -12,10 +12,10 @@ export const setFetching = (payload) => {
   }
 }
 
-export const fetchPets = ({ page, size }) => {
+export const fetchPets = ({ page, size, location }) => {
   return {
     type: actionTypes.FETCH_PETS,
-    payload: { page, size },
+    payload: { page, size, location },
   }
 }
 

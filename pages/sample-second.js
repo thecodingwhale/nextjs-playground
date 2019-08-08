@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import queryString from 'query-string'
 import { Button, Divider, Row, Col, Pagination, Spin } from 'antd'
 import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
@@ -29,15 +30,17 @@ function Index({
   const onClickDonate = () => console.log('onClickDonate')
   const pageSize = 6;
   const activePageNumber = router.query.page ? parseInt(router.query.page, 10) : 1;
+  const filterLocation = router.query.location ? router.query.location : null;
 
   useEffect(() => {
     if (fetching === false) {
       fetchPets({
         page: activePageNumber,
-        size: pageSize
+        size: pageSize,
+        location: filterLocation,
       })
     }
-  }, [activePageNumber])
+  }, [activePageNumber, filterLocation])
 
   return (
     <React.Fragment>
@@ -140,7 +143,15 @@ function Index({
             pageSize={pageSize}
             defaultCurrent={activePageNumber}
             onChange={(page, pageSize) => {
-              router.push(`/sample-second?page=${page}`)
+              const baseQuery = queryString.parse(router.asPath.split(/\?/)[1]);
+              const setupQuery = queryString.stringify({
+                ...baseQuery,
+                ...{
+                  page: page
+                }
+              })
+              router.push(`/sample-second?${setupQuery}`)
+
             }}
           />
         </React.Fragment>
