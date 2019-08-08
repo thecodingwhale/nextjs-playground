@@ -1,29 +1,11 @@
-import faker from 'faker'
+
 import { takeEvery, put, call } from 'redux-saga/effects'
 import { actionTypes, getPets, setFetching } from './actions'
+import pets from '../../db/pets'
 
-function paginate(array, page_size, page_number) {
-  return array.slice(page_number * page_size, (page_number + 1) * page_size);
-}
-
-const pets = [];
-for (let i = 0; i < 35; i++) {
-  pets.push({
-    id: faker.random.number(),
-    name: faker.name.firstName(),
-    image: faker.image.cats(),
-    type: 'CAT',
-    date: {
-      year: 2019,
-      month: 8,
-      day: 1,
-    },
-    location: faker.address.city(),
-    owner: {
-      name: faker.name.findName(),
-      phoneNumber: faker.phone.phoneNumber(),
-    }
-  });
+function paginate(array, pageSize, pageNumber) {
+  --pageNumber;
+  return array.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
 }
 
 const api = {

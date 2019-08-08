@@ -7,6 +7,8 @@ import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
 import { withAuthentication } from '../utils/authentication'
 import { fetchPets } from '../containers/Pets/actions'
+import Filters from '../containers/Pets/Filters'
+import { locationTypes, petTypes } from '../db/contants'
 
 const chunk = (arr, chunkSize = 1, cache = []) => {
   const tmp = [...arr]
@@ -29,31 +31,19 @@ function Index({
   const activePageNumber = router.query.page ? parseInt(router.query.page, 10) : 1;
 
   useEffect(() => {
-    if (fetching === false && pets.length === 0) {
+    if (fetching === false) {
       fetchPets({
         page: activePageNumber,
         size: pageSize
       })
     }
-  })
+  }, [activePageNumber])
 
   return (
     <React.Fragment>
       {total !== 0 && (
         <React.Fragment>
-          <Pagination
-            total={total}
-            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-            pageSize={pageSize}
-            defaultCurrent={activePageNumber}
-            onChange={(page, pageSize) => {
-              router.push(`/sample-second?page=${page}`)
-              fetchPets({
-                page: activePageNumber,
-                size: pageSize
-              })
-            }}
-          />
+          <Filters />
           <Divider />
         </React.Fragment>
       )}
@@ -71,18 +61,19 @@ function Index({
                   owner,
                   location,
                   image,
+                  type,
                 }) => (
                   <Col lg={8}>
                     <AnimalCard
                       key={id}
                       id={id}
                       petName={name}
-                      image='http://placekitten.com/960/690'
+                      image={image}
                       disabled={false}
                     >
                       <div>
                         <strong>Type</strong>
-                        <span style={{ float: 'right' }}>Cat</span>
+                        <span style={{ float: 'right' }}>{type}</span>
                       </div>
                       <div>
                         <strong>Lost</strong>
@@ -140,6 +131,21 @@ function Index({
           })}
         </React.Fragment>
       )}
+      {total !== 0 && (
+        <React.Fragment>
+          <Divider />
+          <Pagination
+            total={total}
+            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+            pageSize={pageSize}
+            defaultCurrent={activePageNumber}
+            onChange={(page, pageSize) => {
+              router.push(`/sample-second?page=${page}`)
+            }}
+          />
+        </React.Fragment>
+      )}
+
     </React.Fragment>
   )
 
@@ -147,10 +153,20 @@ function Index({
 
 const mapStateToProps = state => {
   const { fetching, pets, total } = state.pets
-  const prepareDisplay = chunk(pets, 3)
+  const filteredPets = pets.map(pet => {
+    const location = locationTypes.find(locationType => locationType.value === pet.location)
+    const type = petTypes.find(petType => petType.value === pet.type)
+    return {
+      ...pet,
+      ...{
+        location: location.label,
+        type: type.label,
+      }
+    }
+  })
   return {
     fetching,
-    pets: prepareDisplay,
+    pets: chunk(filteredPets, 3),
     total,
   }
 }
