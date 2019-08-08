@@ -1,16 +1,27 @@
 
 export const actionTypes = {
-  OPEN_SUCCESS_NOTIFICATION: 'OPEN_SUCCESS_NOTIFICATION',
-  CLOSE_SUCCESS_NOTIFICATION: 'CLOSE_SUCCESS_NOTIFICATION',
+  FETCH_PETS: 'FETCH_PETS',
+  GET_PETS: 'GET_PETS',
+  SET_FETCHING: 'SET_FETCHING_PETS',
 }
 
-export const openSuccessNotification = () => {
+export const setFetching = (payload) => {
   return {
-    type: actionTypes.OPEN_SUCCESS_NOTIFICATION,
+    type: actionTypes.SET_FETCHING,
+    payload,
   }
 }
-export const closeSuccessNotification = () => {
+
+export const fetchPets = ({ page, size }) => {
   return {
-    type: actionTypes.CLOSE_SUCCESS_NOTIFICATION,
+    type: actionTypes.FETCH_PETS,
+    payload: { page, size },
+  }
+}
+
+export const getPets = ({ total, data }) => {
+  return {
+    type: actionTypes.GET_PETS,
+    payload: { total, data },
   }
 }

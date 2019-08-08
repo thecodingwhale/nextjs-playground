@@ -1,33 +1,27 @@
 
-import faker from 'faker'
 import { actionTypes } from './actions'
 
-const pets = [];
-for (let i = 0; i < 6; i++) {
-  pets.push({
-    id: faker.random.number(),
-    name: faker.name.firstName(),
-    image: faker.image.cats(),
-    type: 'CAT',
-    date: {
-      year: 2019,
-      month: 8,
-      day: 1,
-    },
-    location: faker.address.city(),
-    owner: {
-      name: faker.name.findName(),
-      phoneNumber: faker.phone.phoneNumber(),
-    }
-  });
-}
-
 const initialState = {
-  pets: pets,
+  fetching: false,
+  pets: [],
+  total: 0,
 }
 
 function reducer (state = initialState, action) {
   switch (action.type) {
+    case actionTypes.SET_FETCHING:
+      return {
+        ...state,
+        fetching: action.payload,
+      }
+
+    case actionTypes.GET_PETS:
+      return {
+        ...state,
+        pets: action.payload.data,
+        total: action.payload.total,
+      }
+
     default:
       return state
   }

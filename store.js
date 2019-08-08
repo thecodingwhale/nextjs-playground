@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './reducers'
 import authenticationSaga from './containers/Authentication/sagas'
+import petsSaga from './containers/Pets/sagas'
 
 const saga = createSagaMiddleware()
 
@@ -36,6 +37,7 @@ const configureStore = (initialState, { isServer }) => {
     store.__persistor = persistStore(store) // Nasty hack
 
     saga.run(authenticationSaga)
+    saga.run(petsSaga)
 
     return store
   }
