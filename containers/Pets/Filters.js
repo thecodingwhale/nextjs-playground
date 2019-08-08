@@ -8,13 +8,14 @@ import { locationTypes } from '../../db/contants'
 
 function Filters({
   router,
+  isFetching,
 }) {
   const filterLocation = router.query.location ? router.query.location : null
   const [isOrderByNameAscending, setOrderByNameAscending] = useState(true)
   const [isOrderByDateAscending, setOrderByDateAscending] = useState(true)
 
   const onClickOrderByName = () => {
-    const condition = !isOrderByNameAscending;
+    const condition = !isOrderByNameAscending
     setOrderByNameAscending(condition)
     const setupQuery = queryString.stringify({
       orderByName: condition ? 'ASC' : 'DESC'
@@ -22,7 +23,7 @@ function Filters({
     router.push(`/sample-second?${setupQuery}`)
   }
   const onClickOrderByDate = () => {
-    const condition = !isOrderByDateAscending;
+    const condition = !isOrderByDateAscending
     setOrderByDateAscending(condition)
     const setupQuery = queryString.stringify({
       orderByDate: condition ? 'ASC' : 'DESC'
@@ -32,7 +33,7 @@ function Filters({
 
   const handleChange = (value) => {
     router.push(`/sample-second?page=1&location=${value}`)
-    const baseQuery = queryString.parse(router.asPath.split(/\?/)[1]);
+    const baseQuery = queryString.parse(router.asPath.split(/\?/)[1])
     const setupQuery = queryString.stringify({
       ...baseQuery,
       ...{
@@ -47,7 +48,7 @@ function Filters({
   }
   return (
     <div>
-      <Select placeholder="Location" defaultValue={filterLocation} style={{ width: 200 }} onChange={handleChange}>
+      <Select disabled={isFetching} placeholder="Location" defaultValue={filterLocation} style={{ width: 200 }} onChange={handleChange}>
         {locationTypes.map(({ label, value }, index) => (
           <Option
             key={index}
@@ -57,15 +58,15 @@ function Filters({
           </Option>
         ))}
       </Select>{' '}
-      <Button onClick={onClickOrderByName}>
+      <Button disabled={isFetching} onClick={onClickOrderByName}>
         Order by Name
         <Icon type={isOrderByNameAscending ? 'up' : 'down'} />
       </Button>{' '}
-      <Button onClick={onClickOrderByDate}>
+      <Button disabled={isFetching} onClick={onClickOrderByDate}>
         Order by Date
         <Icon type={isOrderByDateAscending ? 'up' : 'down'} />
       </Button>{' '}
-      <Button onClick={onClickReset}>
+      <Button disabled={isFetching} onClick={onClickReset}>
         Reset
       </Button>
     </div>
@@ -74,6 +75,7 @@ function Filters({
 
 const mapStateToProps = state => {
   return {
+    isFetching: state.pets.fetching,
   }
 }
 

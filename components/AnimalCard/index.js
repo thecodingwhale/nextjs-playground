@@ -1,6 +1,7 @@
 
 import PropTypes from 'prop-types'
-import { Card, Button } from 'antd'
+import { Card, Button, Spin } from 'antd'
+import ProgressiveImage from 'react-progressive-image'
 
 function AnimalCard({
   id,
@@ -9,6 +10,30 @@ function AnimalCard({
   disabled,
   children,
 }) {
+  const RenderImage = () => {
+    const dominantImageColor = '#ececec';
+    const placeholder = (
+      <div
+        style={{
+          backgroundColor: dominantImageColor,
+          height: 352,
+          width: 510,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+    return (
+      <ProgressiveImage delay={1000} src={image} placeholder="">
+        {(src, loading) => {
+          return loading ? placeholder : <img src={src} alt={petName} />;
+        }}
+      </ProgressiveImage>
+    );
+  };
   return (
     <Card
       hoverable
@@ -22,10 +47,7 @@ function AnimalCard({
       }
       title={`${petName} -- #${id}`}
       cover={
-        <img
-          alt={petName}
-          src={image}
-        />
+        <RenderImage />
       }
     >
       {children}
