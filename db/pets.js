@@ -36,20 +36,17 @@ const ids = [
   99019,
   22293,
   99934,
-];
+]
 
-const pets = [];
+const pets = []
 const bar = 950
 const foo = 650;
 for (let i = 0; i < ids.length; i++) {
-  const randomPetTypeIndex = faker.random.number({
-    'min': 0,
-    'max': petTypes.length - 1,
-  });
-  const randomLocationIndex = faker.random.number({
-    'min': 0,
-    'max': locationTypes.length - 1,
-  });
+  const randomPetTypeIndex = faker.random.number({ 'min': 0, 'max': petTypes.length - 1 })
+  const randomLocationIndex = faker.random.number({ 'min': 0, 'max': locationTypes.length - 1 })
+  const randomYear = faker.random.number({ 'min': 2017, 'max': 2019 })
+  const randomMonth = faker.random.number({ 'min': 1, 'max': 12 })
+  const randomDay = faker.random.number({ 'min': 1, 'max': 30 })
 
   pets.push({
     id: ids[i],
@@ -57,16 +54,16 @@ for (let i = 0; i < ids.length; i++) {
     image: `${petTypes[randomPetTypeIndex].image}/${bar + (i + 1)}/${foo + (i + 1)}`,
     type: petTypes[randomPetTypeIndex].value,
     date: {
-      year: 2019,
-      month: 8,
-      day: 1,
+      year: randomYear,
+      month: randomMonth,
+      day: randomDay,
     },
     location: locationTypes[randomLocationIndex].value,
     owner: {
       name: faker.name.findName(),
       phoneNumber: faker.phone.phoneNumber(),
     }
-  });
+  })
 }
 
 export default pets

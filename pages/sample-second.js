@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import queryString from 'query-string'
+import dateFns from 'date-fns'
 import { Button, Divider, Row, Col, Pagination, Spin } from 'antd'
 import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
@@ -31,6 +32,8 @@ function Index({
   const pageSize = 6;
   const activePageNumber = router.query.page ? parseInt(router.query.page, 10) : 1;
   const filterLocation = router.query.location ? router.query.location : null;
+  const orderByDate = router.query.orderByDate && router.query.orderByDate;
+  const orderByName = router.query.orderByName && router.query.orderByName;
 
   useEffect(() => {
     if (fetching === false) {
@@ -38,9 +41,11 @@ function Index({
         page: activePageNumber,
         size: pageSize,
         location: filterLocation,
+        orderByDate,
+        orderByName,
       })
     }
-  }, [activePageNumber, filterLocation])
+  }, [activePageNumber, filterLocation, orderByDate, orderByName])
 
   return (
     <React.Fragment>
@@ -65,6 +70,7 @@ function Index({
                   location,
                   image,
                   type,
+                  date,
                 }) => (
                   <Col lg={8}>
                     <AnimalCard
@@ -80,7 +86,7 @@ function Index({
                       </div>
                       <div>
                         <strong>Lost</strong>
-                        <span style={{ float: 'right' }}>September 12, 2019</span>
+                        <span style={{ float: 'right' }}>{date}</span>
                       </div>
                       <div>
                         <strong>Location</strong>
@@ -167,11 +173,14 @@ const mapStateToProps = state => {
   const filteredPets = pets.map(pet => {
     const location = locationTypes.find(locationType => locationType.value === pet.location)
     const type = petTypes.find(petType => petType.value === pet.type)
+    const { year, month, day } = pet.date;
+    const formattedDate = dateFns.format(new Date(year, month, day), 'MMMM DD, YYYY')
     return {
       ...pet,
       ...{
         location: location.label,
         type: type.label,
+        date: formattedDate,
       }
     }
   })
