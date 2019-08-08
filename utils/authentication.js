@@ -3,12 +3,14 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import LoginForm from '../containers/Authentication/LoginForm'
 
-const BaseLayout = ({
-  wrappedComponent,
-  isAuthenticated,
-}) => {
+const BaseLayout = (props) => {
+  const {
+    wrappedComponent,
+    isAuthenticated,
+    router,
+  } = props;
   const Component = isAuthenticated ? wrappedComponent : LoginForm;
-  return <Component />
+  return <Component router={router} />
 }
 
 const mapStateToProps = state => {

@@ -70,6 +70,10 @@ const BaseLayout = ({
     )
   }
 
+  const childrenWithProps = React.Children.map(children, child =>
+    React.cloneElement(child, { router })
+  );
+
   return (
     <Layout>
       <Header className='header'>

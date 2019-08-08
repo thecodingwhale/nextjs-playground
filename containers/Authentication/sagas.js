@@ -22,7 +22,7 @@ const api = {
   }
 }
 
-export default function * rootSaga () {
+export default function* rootSaga () {
   yield takeEvery(actionTypes.ON_LOGIN, onLoginAsync);
 }
 

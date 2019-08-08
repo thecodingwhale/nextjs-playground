@@ -2,21 +2,21 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Icon, Input, Button } from 'antd'
-import { onLogin } from './actions';
+import { onLogin } from './actions'
 
 class LoginForm extends React.Component {
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, { username, password }) => {
       if (!err) {
         this.props.onLogin({ username, password })
       }
-    });
-  };
+    })
+  }
 
   render() {
-    const { inProgress } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { inProgress } = this.props
+    const { getFieldDecorator } = this.props.form
     return (
       <Row>
         <Col span={6} offset={9}>
@@ -52,11 +52,11 @@ class LoginForm extends React.Component {
           </Form>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
-const WrappedLoginForm = Form.create({ name: 'login_form' })(LoginForm);
+const WrappedLoginForm = Form.create({ name: 'login_form' })(LoginForm)
 
 const mapStateToProps = state => {
   return {
