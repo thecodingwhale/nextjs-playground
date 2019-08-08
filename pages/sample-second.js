@@ -4,13 +4,15 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import queryString from 'query-string'
 import dateFns from 'date-fns'
-import { Button, Divider, Row, Col, Pagination, Spin } from 'antd'
+import { Button, Divider, Row, Col, Pagination, Spin, Typography } from 'antd'
 import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
 import { withAuthentication } from '../utils/authentication'
 import { fetchPets } from '../containers/Pets/actions'
 import Filters from '../containers/Pets/Filters'
 import { locationTypes, petTypes } from '../db/contants'
+
+const { Title } = Typography;
 
 const chunk = (arr, chunkSize = 1, cache = []) => {
   const tmp = [...arr]
@@ -49,6 +51,7 @@ function Index({
 
   return (
     <React.Fragment>
+      <Title>Lost and Found Pets</Title>
       {total !== 0 && (
         <React.Fragment>
           <Filters />
@@ -71,6 +74,7 @@ function Index({
                   image,
                   type,
                   date,
+                  amount,
                 }) => (
                   <Col lg={8}>
                     <AnimalCard
@@ -103,7 +107,7 @@ function Index({
                       </div>
                       <Divider />
                       <div>
-                        <strong>$50</strong>
+                        <strong>${amount}</strong>
                         <span style={{ float: 'right' }}>
                           {donated ? (
                             <Button
@@ -175,12 +179,14 @@ const mapStateToProps = state => {
     const type = petTypes.find(petType => petType.value === pet.type)
     const { year, month, day } = pet.date;
     const formattedDate = dateFns.format(new Date(year, month, day), 'MMMM DD, YYYY')
+    const amount = pet.donation ? pet.donation.amount : 0;
     return {
       ...pet,
       ...{
         location: location.label,
         type: type.label,
         date: formattedDate,
+        amount,
       }
     }
   })

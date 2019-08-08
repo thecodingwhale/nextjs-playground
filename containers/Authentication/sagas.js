@@ -3,17 +3,17 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 import { actionTypes, userLoginSuccess } from './actions'
 import { displayError } from '../ErrorHandler/actions'
 import { startProgress, stopProgress } from '../Progress/actions'
+import { baseUser } from '../../db/contants'
 
 const api = {
   auth: ({ username, password }) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (username === "you@email.com" && password === "password") {
+        if (username === baseUser.email && password === baseUser.password) {
           resolve({
-            id: 'ksaedkAkd92345mSWDlmEF906',
-            email: username,
-            firstName: 'alejandro',
-            lastName: 'gutierrez',
+            id: baseUser.id,
+            firstName: baseUser.firstName,
+            lastName: baseUser.lastName,
           })
         }
         reject({ message: "User not found." })

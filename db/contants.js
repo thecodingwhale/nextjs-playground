@@ -1,3 +1,4 @@
+
 export const petTypes = [{
   label: 'Cat',
   value: 'CAT',
@@ -24,3 +25,11 @@ export const locationTypes = [{
   label: 'Seatle',
   value: 'SEATLE',
 }]
+
+export const baseUser = {
+  id: 'ksaedkAkd92345mSWDlmEF906',
+  firstName: 'alejandro',
+  lastName: 'gutierrez',
+  email: 'you@email.com',
+  password: 'password',
+}

@@ -1,24 +1,11 @@
 import faker from 'faker'
-import { petTypes, locationTypes } from './contants';
+import { petTypes, locationTypes } from './contants'
+import donations, { donatedIds } from './donations'
 
-const ids = [
+const petsIds = [
   89283,
   93849,
   29384,
-  23242,
-  25242,
-  90902,
-  82734,
-  20940,
-  34938,
-  89892,
-  29903,
-  99203,
-  90293,
-  98303,
-  28324,
-  24232,
-  59483,
   50392,
   49283,
   34045,
@@ -38,9 +25,14 @@ const ids = [
   99934,
 ]
 
+const shuffle = array => {
+  return array.sort(() => Math.random() - 0.5);
+}
+const ids = shuffle([...donatedIds, ...petsIds])
+
 const pets = []
-const bar = 950
-const foo = 650;
+const baseWidth = 950
+const baseHeigh = 650
 for (let i = 0; i < ids.length; i++) {
   const randomPetTypeIndex = faker.random.number({ 'min': 0, 'max': petTypes.length - 1 })
   const randomLocationIndex = faker.random.number({ 'min': 0, 'max': locationTypes.length - 1 })
@@ -48,10 +40,13 @@ for (let i = 0; i < ids.length; i++) {
   const randomMonth = faker.random.number({ 'min': 1, 'max': 12 })
   const randomDay = faker.random.number({ 'min': 1, 'max': 30 })
 
+  let donation = donations.find(d => d.idPet === ids[i])
+  donation = typeof donation !== 'undefined' ? donation : null
+
   pets.push({
     id: ids[i],
     name: faker.name.firstName(),
-    image: `${petTypes[randomPetTypeIndex].image}/${bar + (i + 1)}/${foo + (i + 1)}`,
+    image: `${petTypes[randomPetTypeIndex].image}/${baseWidth + (i + 1)}/${baseHeigh + (i + 1)}`,
     type: petTypes[randomPetTypeIndex].value,
     date: {
       year: randomYear,
@@ -62,7 +57,8 @@ for (let i = 0; i < ids.length; i++) {
     owner: {
       name: faker.name.findName(),
       phoneNumber: faker.phone.phoneNumber(),
-    }
+    },
+    donation,
   })
 }
 
