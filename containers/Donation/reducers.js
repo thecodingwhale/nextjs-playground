@@ -1,15 +1,39 @@
 import { actionTypes } from './actions'
 
 const initialState = {
-  totalDonation: 0,
+  donating: false,
+  donated: false,
+  donations: [],
 }
 
 function reducer (state = initialState, action) {
   switch (action.type) {
-    case actionTypes.GET_TOTAL_DONATION_BY_USER_ID:
+    case actionTypes.SET_DONATING:
       return {
         ...state,
-        totalDonation: action.payload.totalDonation,
+        donating: action.payload,
+      }
+
+    case actionTypes.SET_DONATED:
+      return {
+        ...state,
+        donated: action.payload,
+      }
+
+    case actionTypes.GET_DONATIONS:
+      return {
+        ...state,
+        donations: action.payload.donations,
+      }
+
+    case actionTypes.ADD_DONATION:
+      return {
+        ...state,
+        donated: true,
+        donations: [
+          ...state.donations,
+          action.payload.donation
+        ]
       }
 
     default:

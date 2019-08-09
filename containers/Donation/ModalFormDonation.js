@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Modal, Form, InputNumber, Button } from 'antd'
 import { openSuccessNotification } from '../Notification/actions'
+import { makeDonation, setDonated } from '../Donation/actions'
 
 const DonationForm = (props) => {
   const { getFieldDecorator } = props.form
@@ -58,18 +59,30 @@ const DonationForm = (props) => {
 
 const WrapDonationForm = Form.create({ name: 'donation_form' })(DonationForm)
 
-function ModalFormDonation({
-  openSuccessNotification,
-}) {
-  const [isModalVisible, setModalVisible] = useState(true)
+function ModalFormDonation(props) {
+  const { openSuccessNotification } = props
+  const [isModalVisible, setModalVisible] = useState(setModalVisible)
   const [submitting, setSubmitting] = useState(false)
   const [resetForm, setResetFrom] = useState(false)
   const handleOk = () => console.log('handleOk')
   const handleCancel = () => console.log('handleCancel')
 
+  useEffect(() => {
+    setModalVisible(props.openModal)
+  }, [props.openModal])
+
+  useEffect(() => {
+    if (props.donated) {
+      props.setDonated(false)
+      props.onModalClose()
+      setResetFrom(true)
+      openSuccessNotification()
+    }
+  }, [props.donated])
+
   return (
     <Modal
-      title='Make a Donation'
+      title={`Make a Donation #${props.idPet}`}
       centered
       visible={isModalVisible}
       onOk={handleOk}
@@ -78,20 +91,17 @@ function ModalFormDonation({
       closable={false}
     >
       <WrapDonationForm
-        submitting={submitting}
+        submitting={props.isDonating}
         resetForm={resetForm}
         onClickCancel={() => {
-          setModalVisible(false)
+          props.onModalClose()
         }}
         onSubmitDonation={(values) => {
-          setSubmitting(true)
-          setTimeout(() => {
-            setSubmitting(false)
-            setResetFrom(true)
-            setModalVisible(false)
-            openSuccessNotification()
-            console.log(values)
-          }, 3000)
+          props.makeDonation({
+            idUser: props.idUser,
+            idPet: props.idPet,
+            amount: values.amount
+          })
         }}
       />
     </Modal>
@@ -99,12 +109,17 @@ function ModalFormDonation({
 }
 const mapStateToProps = state => {
   return {
-
+    isDonating: state.donation.donating,
+    idUser: state.authentication.user && state.authentication.user.id,
+    donations: state.donation.donations,
+    donated: state.donation.donated,
   }
 }
 
 const mapDispatchActions = {
   openSuccessNotification,
+  makeDonation,
+  setDonated,
 }
 
 const enhance = compose(

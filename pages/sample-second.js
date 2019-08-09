@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import queryString from 'query-string'
@@ -31,12 +31,16 @@ function Index({
 }) {
   const donated = false
   const donating = false
-  const onClickDonate = () => console.log('onClickDonate')
   const pageSize = 6;
   const activePageNumber = router.query.page ? parseInt(router.query.page, 10) : 1;
   const filterLocation = router.query.location ? router.query.location : null;
   const orderByDate = router.query.orderByDate && router.query.orderByDate;
   const orderByName = router.query.orderByName && router.query.orderByName;
+
+  const [idPet, setIdPet] = useState(null)
+  const onClickDonate = (id) => {
+    setIdPet(id)
+  }
 
   useEffect(() => {
     if (fetching === false) {
@@ -52,7 +56,13 @@ function Index({
 
   return (
     <React.Fragment>
-      <ModalFormDonation />
+      <ModalFormDonation
+        idPet={idPet}
+        openModal={idPet !== null}
+        onModalClose={() => {
+          setIdPet(null)
+        }}
+      />
       <Title>Lost and Found Pets</Title>
       {total !== 0 && (
         <React.Fragment>
@@ -64,9 +74,9 @@ function Index({
         <Spin size="large" />
       ) : (
         <React.Fragment>
-          {pets.map(parent => {
+          {pets.map((parent, index) => {
             return (
-              <Row gutter={16} style={{ marginBottom: '20px' }}>
+              <Row key={index} gutter={16} style={{ marginBottom: '20px' }}>
                 {parent.map(({
                   id,
                   name,
@@ -77,9 +87,8 @@ function Index({
                   date,
                   amount,
                 }) => (
-                  <Col lg={8}>
+                  <Col key={id} lg={8}>
                     <AnimalCard
-                      key={id}
                       id={id}
                       petName={name}
                       image={image}
@@ -120,7 +129,7 @@ function Index({
                           ) : (
                             <Button
                               type='primary'
-                              onClick={onClickDonate}
+                              onClick={() => onClickDonate(id)}
                               disabled={donating}
                             >
                               {donating ? 'Donating...' : 'Donate'}
