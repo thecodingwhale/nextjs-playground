@@ -7,6 +7,10 @@ export const petTypes = [{
   label: 'Dog',
   value: 'DOG',
   image: 'https://placedog.net',
+}, {
+  label: 'Bear',
+  value: 'BEAR',
+  image: 'https://placebear.com',
 }]
 
 export const locationTypes = [{

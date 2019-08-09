@@ -1,6 +1,6 @@
 import faker from 'faker'
 import { petTypes, locationTypes } from './contants'
-import donations, { donatedIds } from './donations'
+import { donatedIds } from './donations'
 
 const petsIds = [
   89283,
@@ -23,6 +23,16 @@ const petsIds = [
   99019,
   22293,
   99934,
+  98783,
+  48739,
+  39485,
+  38495,
+  99938,
+  22934,
+  89834,
+  92142,
+  20472,
+  10234,
 ]
 
 const shuffle = array => {

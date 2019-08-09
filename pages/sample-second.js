@@ -203,6 +203,7 @@ const mapStateToProps = state => {
   })
   return {
     fetching: fetching,
+    donating: state.donation.donating,
     pets: state.donation.donations.length !== 0 ? chunk(filteredPets, 3) : [],
     total,
   }
