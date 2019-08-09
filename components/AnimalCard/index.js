@@ -17,7 +17,6 @@ function AnimalCard({
         style={{
           backgroundColor: dominantImageColor,
           height: 352,
-          width: 510,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
