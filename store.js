@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './reducers'
 import authenticationSaga from './containers/Authentication/sagas'
 import petsSaga from './containers/Pets/sagas'
+import donationSaga from './containers/Donation/sagas'
 
 const saga = createSagaMiddleware()
 
@@ -38,6 +39,7 @@ const configureStore = (initialState, { isServer }) => {
 
     saga.run(authenticationSaga)
     saga.run(petsSaga)
+    saga.run(donationSaga)
 
     return store
   }

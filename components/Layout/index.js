@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import { Layout, Menu, notification } from 'antd'
 import { closeSuccessNotification } from '../../containers/Notification/actions'
 import { logoutUser } from '../../containers/Authentication/actions'
+import { fetchTotalDonationByUserId } from '../../containers/Donation/actions'
 
 const { Header, Content } = Layout
 
@@ -22,7 +23,16 @@ const BaseLayout = ({
   fullname,
   closeSuccessNotification,
   logoutUser,
+  fetchTotalDonationByUserId,
+  userId,
+  totalDonation,
 }) => {
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchTotalDonationByUserId({ userId })
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     if (isOpenNotification) {
@@ -45,6 +55,7 @@ const BaseLayout = ({
     }
   })
 
+
   const TotalDonation = () => {
     const style = {
       color: '#1890ff',
@@ -52,7 +63,7 @@ const BaseLayout = ({
     };
     return (
       <span style={style}>
-        $459
+        {totalDonation === 0 ? '---' : `$${totalDonation}`}
       </span>
     )
   }
@@ -69,10 +80,6 @@ const BaseLayout = ({
       </span>
     )
   }
-
-  const childrenWithProps = React.Children.map(children, child =>
-    React.cloneElement(child, { router })
-  );
 
   return (
     <Layout>
@@ -125,17 +132,21 @@ const BaseLayout = ({
 }
 
 const mapStateToProps = state => {
+  console.log('state.donation: ', state.donation)
   return {
     isOpenNotification: state.notification.open,
     error: state.error,
     isAuthenticated: state.authentication.authenticated,
-    fullname: state.authentication.user && `${state.authentication.user.firstName} ${state.authentication.user.lastName}`
+    userId: state.authentication.user && state.authentication.user.id,
+    fullname: state.authentication.user && `${state.authentication.user.firstName} ${state.authentication.user.lastName}`,
+    totalDonation: state.donation.totalDonation,
   }
 }
 
 const mapDispatchActions = {
   closeSuccessNotification,
   logoutUser,
+  fetchTotalDonationByUserId,
 }
 
 const withLayout = Page => {
