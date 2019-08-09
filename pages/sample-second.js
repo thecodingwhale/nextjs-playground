@@ -70,7 +70,7 @@ function Index({
           <Divider />
         </React.Fragment>
       )}
-      {fetching ? (
+      {fetching || pets.length === 0 ? (
         <Spin size="large" />
       ) : (
         <React.Fragment>
@@ -189,7 +189,8 @@ const mapStateToProps = state => {
     const type = petTypes.find(petType => petType.value === pet.type)
     const { year, month, day } = pet.date;
     const formattedDate = dateFns.format(new Date(year, month, day), 'MMMM DD, YYYY')
-    const amount = pet.donation ? pet.donation.amount : 0;
+    const amount = state.donation.donations.filter(donation => donation.idPet === pet.id).reduce(function (acc, obj) { return acc + obj.amount }, 0);
+
     return {
       ...pet,
       ...{
@@ -201,8 +202,8 @@ const mapStateToProps = state => {
     }
   })
   return {
-    fetching,
-    pets: chunk(filteredPets, 3),
+    fetching: fetching,
+    pets: state.donation.donations.length !== 0 ? chunk(filteredPets, 3) : [],
     total,
   }
 }

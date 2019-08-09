@@ -40,9 +40,6 @@ for (let i = 0; i < ids.length; i++) {
   const randomMonth = faker.random.number({ 'min': 1, 'max': 12 })
   const randomDay = faker.random.number({ 'min': 1, 'max': 30 })
 
-  let donation = donations.find(d => d.idPet === ids[i])
-  donation = typeof donation !== 'undefined' ? donation : null
-
   pets.push({
     id: ids[i],
     name: faker.name.firstName(),
@@ -58,7 +55,6 @@ for (let i = 0; i < ids.length; i++) {
       name: faker.name.findName(),
       phoneNumber: faker.phone.phoneNumber(),
     },
-    donation,
   })
 }
 
