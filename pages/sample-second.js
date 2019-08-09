@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import queryString from 'query-string'
 import dateFns from 'date-fns'
-import { Button, Divider, Row, Col, Pagination, Spin, Typography } from 'antd'
+import { Button, Divider, Row, Col, Pagination, Spin, Typography, Modal } from 'antd'
 import AnimalCard from '../components/AnimalCard'
 import withLayout from '../components/Layout'
 import { withAuthentication } from '../utils/authentication'
 import { fetchPets } from '../containers/Pets/actions'
 import Filters from '../containers/Pets/Filters'
+import ModalFormDonation from '../containers/Donation/ModalFormDonation'
 import { locationTypes, petTypes } from '../db/contants'
 
 const { Title } = Typography;
@@ -51,6 +52,7 @@ function Index({
 
   return (
     <React.Fragment>
+      <ModalFormDonation />
       <Title>Lost and Found Pets</Title>
       {total !== 0 && (
         <React.Fragment>
@@ -58,7 +60,6 @@ function Index({
           <Divider />
         </React.Fragment>
       )}
-
       {fetching ? (
         <Spin size="large" />
       ) : (
